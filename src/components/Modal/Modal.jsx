@@ -5,9 +5,8 @@ import PropTypes from 'prop-types'
 
 const modalRoot = document.getElementById("modal-root")
 
-// import React from 'react'
-
-export default function Modal({ modalClose, children }) {
+export default function Modal({ modalClose, data }) {
+    const { tags, largeImageURL } = data
     useEffect(() => {
         document.addEventListener('keydown', closeModal)
 
@@ -25,7 +24,7 @@ export default function Modal({ modalClose, children }) {
     return createPortal(
         <div className='Overlay' onClick={closeModal}>
             <div className="Modal">
-                {children}
+                <img src={largeImageURL} alt={tags} />
             </div>
         </div>,
         modalRoot
@@ -34,39 +33,9 @@ export default function Modal({ modalClose, children }) {
 
 Modal.propTypes = {
     modalClose: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired
+    data: PropTypes.shape({
+        tags: PropTypes.string.isRequired,
+        largeImageURL: PropTypes.string.isRequired,
+    }
+    )
 }
-
-
-// export default class Modal extends Component {
-
-//     componentDidMount() {
-//         document.addEventListener('keydown', this.closeModal)
-//     }
-
-//     componentWillUnmount() {
-//         document.removeEventListener('keydown', this.closeModal)
-//     }
-
-//     closeModal = ({ target, currentTarget, code }) => {
-//         if (target === currentTarget || code === 'Escape') {
-//             this.props.modalClose()
-//         }
-//     }
-
-//     render() {
-//         return createPortal(
-            // <div className='Overlay' onClick={this.closeModal}>
-            //     <div className="Modal">
-            //         {this.props.children}
-            //     </div>
-            // </div>,
-            // modalRoot
-//         )
-//     }
-// }
-
-// Modal.propTypes = {
-//     modalClose: PropTypes.func.isRequired,
-//     children: PropTypes.node.isRequired
-// }
